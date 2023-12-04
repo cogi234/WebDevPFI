@@ -12,7 +12,7 @@ $viewContent = <<<HTML
             Gestionnaire de photos multi-usagers
         </p>
         <p>
-            Auteur: Nicolas Chourot
+            Auteurs: Colin Bougie et Lorick Denis
         </p>
         <p>
             Collège Lionel-Groulx, automne 2023

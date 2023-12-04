@@ -6,5 +6,5 @@
 	- Filtrer par usager
 	- Avoir 5 usagers
 	- Avoir 15 photos
-	- Nos noms dans la page a propos
+DONE	- Nos noms dans la page a propos
 	- Publier sur InfinityFree
