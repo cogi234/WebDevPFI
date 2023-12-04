@@ -1,0 +1,10 @@
+	- Likes
+		- Afficher nombre de likes
+		- Ajouter/enlever like
+		- Tri par nombre de likes
+	- Recherche par mots-clés
+	- Filtrer par usager
+	- Avoir 5 usagers
+	- Avoir 15 photos
+	- Nos noms dans la page a propos
+	- Publier sur InfinityFree
