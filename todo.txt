@@ -2,7 +2,7 @@
 DONE	- Afficher nombre de likes
 DONE	- Ajouter/enlever like
 DONE	- Tri par nombre de likes
-	- Recherche par mots-clés
+DONE- Recherche par mots-clés
 	- Filtrer par usager
 	- Avoir 5 usagers
 	- Avoir 15 photos

@@ -7,14 +7,19 @@ require 'DAL/PhotosCloudDB.php';
 $viewName = "photoList";
 userAccess();
 $viewTitle = "Photos";
-$list = PhotosTable()->get();
+
 $viewContent = "<div class='photosLayout'>";
 $userId = (int) $_SESSION["currentUserId"];
 $isAdmin = (bool) $_SESSION["isAdmin"];
 $ownerPhotos = false;
 if (isset($_GET["sort"]))
     $_SESSION["photoSortType"] = $_GET["sort"];
+
 $sortType = $_SESSION["photoSortType"];
+if (isset($_GET["keywords"]))
+    $_SESSION["keywords"] = $_GET["keywords"];
+
+
 function compareDate($a, $b)
 {
     $dateA = strtotime($a->CreationDate);
@@ -40,23 +45,47 @@ function compareLikes($a, $b)
 
     return $lb - $la;
 }
+function createCondition($string)
+{
+    return "(Title LIKE('%$string%') OR Description LIKE('%$string%'))";
+}
 
 switch ($sortType) {
     case "date":
+        $list = PhotosTable()->get();
         usort($list, 'compareDate');
         break;
     case "likes":
+        $list = PhotosTable()->get();
         usort($list, 'compareLikes');
         break;
     case "keywords":
-        // todo
+        if (isset($_SESSION["keywords"])) {
+            $keyword = $_SESSION["keywords"];
+            $keywords = explode(" ", $keyword);
+            $keywords = array_map('createCondition', $keywords);
+            
+            $condition = implode(' OR ', $keywords);
+            $list = PhotosTable()->selectWhere($condition);
+        }
+        else
+        {
+            $list = PhotosTable()->get();
+        }
+
+
         break;
     case "owners":
         // todo
         break;
     case "owner":
+        $list = PhotosTable()->get();
         $ownerPhotos = true;
         usort($list, 'compareDate');
+        break;
+
+    default:
+        $list = PhotosTable()->get();
         break;
 }
 
