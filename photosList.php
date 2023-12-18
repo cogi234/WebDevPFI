@@ -9,6 +9,7 @@ userAccess();
 $viewTitle = "Photos";
 $list = PhotosTable()->get();
 $viewContent = "<div class='photosLayout'>";
+$userId = (int) $_SESSION["currentUserId"];
 $isAdmin = (bool) $_SESSION["isAdmin"];
 $ownerPhotos = false;
 if (isset($_GET["sort"]))
@@ -32,7 +33,8 @@ function compareOwner($a, $b)
     $ownerName_B = no_Hyphens(UsersTable()->get($b->OwnerId)->Name);
     return strcmp($ownerName_A, $ownerName_B);
 }
-function compareLikes($a, $b){
+function compareLikes($a, $b)
+{
     $la = $a->Likes;
     $lb = $b->Likes;
 
@@ -74,6 +76,18 @@ foreach ($list as $photo) {
         $likes = $photo->Likes;
         $visible = $shared || $isAdmin;
 
+        $userLike = count(LikesTable()->selectWhere("UserId = $userId AND PhotoId = $id")) > 0;
+        $photoLikedByConnectedUser = $userLike ? "fa" : "fa-regular";
+
+        //Find every user who liked
+        $likesUsersList = [];
+        $likers = LikesTable()->selectWhere("PhotoId = $id");
+        foreach ($likers as $liker) {
+            array_push($likesUsersList, UsersTable()->selectById($liker->UserId)[0]->Name);
+        }
+        $likesUsersString = implode("\n", $likesUsersList);
+
+
         if (($photo->OwnerId == (int) $_SESSION["currentUserId"]) || $isAdmin) {
             $visible = true;
             $editCmd = <<<HTML
@@ -100,12 +114,10 @@ foreach ($list as $photo) {
                         </div>
                         <div class="photoCreationDate"> 
                             $creationDate
-                            <a href="togglePhotoLike.php?photoId=$id">
-                                <div class="likesSummary">
-                                    $likes
-                                    <i class="cmdIconSmall fa-regular fa-thumbs-up"></i> 
-                                </div>
-                            </a>
+                            <div class="likesSummary" title="$likesUsersString">
+                                $likes
+                                <a href="togglePhotoLike.php?photoId=$id" class="cmdIconSmall $photoLikedByConnectedUser fa-thumbs-up" id="addRemoveLikeCmd" title="$likesUsersString" ></a> 
+                            </div>
                         </div>
                     </a>
                 </div>           
