@@ -24,7 +24,14 @@ $likes = $photo->Likes;
 $userLike = count(LikesTable()->selectWhere("UserId = $userId AND PhotoId = $id")) > 0;
 $photoLikedByConnectedUser = $userLike ? "fa" : "fa-regular"; 
 
-$likesUsersList = ""; // todo
+//Find every user who liked
+$likesUsersList = [];
+$likers = LikesTable()->selectWhere("PhotoId = $id");
+foreach ($likers as $liker){
+    array_push($likesUsersList, UsersTable()->selectById($liker->UserId)[0]->Name);
+}
+$likesUsersString = implode("\n", $likesUsersList);
+
 
 $owner = UsersTable()->Get($photo->OwnerId);
 $ownerName = $owner->Name;
@@ -43,9 +50,9 @@ $viewContent = <<<HTML
         <img src="$image" class="photoDetailsLargeImage">
         <div class="photoDetailsCreationDate">
         $creationDate
-        <div class="likesSummary">
+        <div class="likesSummary" title="$likesUsersString">
             $likes
-            <a href="togglePhotoLike.php?photoId=$id" class="cmdIconSmall $photoLikedByConnectedUser fa-thumbs-up" id="addRemoveLikeCmd" title="$likesUsersList" ></a> 
+            <a href="togglePhotoLike.php?photoId=$id" class="cmdIconSmall $photoLikedByConnectedUser fa-thumbs-up" id="addRemoveLikeCmd" title="$likesUsersString" ></a> 
         </div>
         <div class="photoDetailsDescription">$description</div>
     HTML;

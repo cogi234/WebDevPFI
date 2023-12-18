@@ -8,5 +8,16 @@ if (!isset($_GET["photoId"]))
 
 $photoId = (int)$_GET["photoId"];
 $userId = (int)$_SESSION["currentUserId"];
-// todo
+
+$like = LikesTable()->selectWhere("PhotoId = $photoId AND UserId = $userId")[0];
+
+
+if (isset($like)){
+    LikesTable()->delete($like->Id);
+} else {
+LikesTable()->insert(new Like(["UserId" => $userId, "PhotoId" => $photoId, "CreationDate" => date("Y-m-d H:i:s")]));
+}
+
+LikesTable()->updatePhotoLikeCount($photoId);
+
 redirect("photoDetails.php?id=$photoId");

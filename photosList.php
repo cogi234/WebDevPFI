@@ -32,13 +32,19 @@ function compareOwner($a, $b)
     $ownerName_B = no_Hyphens(UsersTable()->get($b->OwnerId)->Name);
     return strcmp($ownerName_A, $ownerName_B);
 }
+function compareLikes($a, $b){
+    $la = $a->Likes;
+    $lb = $b->Likes;
+
+    return $lb - $la;
+}
 
 switch ($sortType) {
     case "date":
         usort($list, 'compareDate');
         break;
     case "likes":
-        // todo
+        usort($list, 'compareLikes');
         break;
     case "keywords":
         // todo
@@ -94,10 +100,12 @@ foreach ($list as $photo) {
                         </div>
                         <div class="photoCreationDate"> 
                             $creationDate
-                            <div class="likesSummary">
-                                $likes
-                                <i class="cmdIconSmall fa-regular fa-thumbs-up"></i> 
-                            </div>
+                            <a href="togglePhotoLike.php?photoId=$id">
+                                <div class="likesSummary">
+                                    $likes
+                                    <i class="cmdIconSmall fa-regular fa-thumbs-up"></i> 
+                                </div>
+                            </a>
                         </div>
                     </a>
                 </div>           
