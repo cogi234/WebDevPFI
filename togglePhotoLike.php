@@ -15,7 +15,7 @@ $like = LikesTable()->selectWhere("PhotoId = $photoId AND UserId = $userId")[0];
 if (isset($like)){
     LikesTable()->delete($like->Id);
 } else {
-LikesTable()->insert(new Like(["UserId" => $userId, "PhotoId" => $photoId, "CreationDate" => date("Y-m-d H:i:s")]));
+    LikesTable()->insert(new Like(["UserId" => $userId, "PhotoId" => $photoId, "CreationDate" => date("Y-m-d H:i:s")]));
 }
 
 LikesTable()->updatePhotoLikeCount($photoId);
