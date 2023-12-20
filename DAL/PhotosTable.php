@@ -1,6 +1,6 @@
 <?php
 
-include_once 'DAl/models/photo.php';
+include_once 'DAL/models/photo.php';
 include_once "DAL/MySQLDataBase.php";
 include_once 'php/imageFiles.php';
 include_once 'DAL/LikesTable.php';
