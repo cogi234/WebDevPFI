@@ -76,7 +76,7 @@ switch ($sortType) {
         }
         break;
     case "owners":
-        if ($_GET["owner"] == -1)
+        if (!isset($_GET["owner"]) || $_GET["owner"] == -1)
             $list = PhotosTable()->get();
         else
             $list = PhotosTable()->selectWhere("OwnerId = " . $_GET["owner"]);
