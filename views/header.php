@@ -80,10 +80,24 @@ if (strcmp($viewName, "photoList") == 0) {
          </a>
         HTML;
     if ($sortType == "owners") {
+        $users = UsersTable()->get();
+        $userOptions = "";
+        $selected = -1;
+        if (isset($_GET["owner"]))
+            $selected = $_GET["owner"];
+
+        foreach ($users as $u) {
+            if ($u->Id == $selected)
+                $userOptions .= "<option selected=\"selected\" value=" . $u->Id . "> " . $u->Name . "</option>\n";
+            else
+                $userOptions .= "<option value=" . $u->Id . "> " . $u->Name . "</option>\n";
+        }
+
         $viewHeadCustom = <<<HTML
             <div class="searchContainer">
                 <select class="form-select userSelector" id="userSelector"> 
-                    <option value="0"> Tous les usagers</option>
+                    <option value="-1"> Tous les usagers</option>
+                    $userOptions
                 </select>
                 <i class="cmdIcon fa fa-search" id="setPhotoOwnerSearchIdCmd"></i>
             </div>

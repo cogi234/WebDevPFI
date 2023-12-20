@@ -74,18 +74,18 @@ switch ($sortType) {
         {
             $list = PhotosTable()->get();
         }
-
-
         break;
     case "owners":
-        // todo
+        if ($_GET["owner"] == -1)
+            $list = PhotosTable()->get();
+        else
+            $list = PhotosTable()->selectWhere("OwnerId = " . $_GET["owner"]);
         break;
     case "owner":
         $list = PhotosTable()->get();
         $ownerPhotos = true;
         usort($list, 'compareDate');
         break;
-
     default:
         $list = PhotosTable()->get();
         break;
