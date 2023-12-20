@@ -1,7 +1,7 @@
 <?php
 
-include_once 'DAl/models/like.php';
-include_once 'DAl/PhotosTable.php';
+include_once 'DAL/models/like.php';
+include_once 'DAL/PhotosTable.php';
 include_once "DAL/MySQLDataBase.php";
 
 final class LikesTable extends MySQLTable
