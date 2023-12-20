@@ -11,6 +11,8 @@ if (!isset($_GET["id"]))
 
 $id = (int) $_GET["id"];
 
+$_SESSION["redirect"] = $_SERVER["REQUEST_URI"];
+
 $photo = PhotosTable()->get($id);
 if ($photo == null)
     redirect("illegalAction.php");

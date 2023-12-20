@@ -20,4 +20,4 @@ LikesTable()->insert(new Like(["UserId" => $userId, "PhotoId" => $photoId, "Crea
 
 LikesTable()->updatePhotoLikeCount($photoId);
 
-redirect("photoDetails.php?id=$photoId");
+redirect($_SESSION["redirect"]);

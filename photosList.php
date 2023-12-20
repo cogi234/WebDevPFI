@@ -19,6 +19,8 @@ $sortType = $_SESSION["photoSortType"];
 if (isset($_GET["keywords"]))
     $_SESSION["keywords"] = $_GET["keywords"];
 
+$_SESSION["redirect"] = $_SERVER["REQUEST_URI"];
+
 
 function compareDate($a, $b)
 {
